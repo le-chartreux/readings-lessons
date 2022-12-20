@@ -1,0 +1,48 @@
+# Proprement codeur - leçons
+
+Ensemble des enseignements que j'ai tirés du livre *Proprement Codeur - Code de conduite pour développeurs professionnels* par **Robert C. Martin**.
+
+## Chapitre 1 : professionnalisme
+
+- Un professionnel endosse ses erreurs (p.8)
+- Un professionnel prend ses responsabilités (p.8)
+- Les tests avant les délais (p.10)
+- Un projet se doit d'être documenté et compréhensible : il sera plus souvent lu qu'écrit.
+- Un projet doit être flexible (aisément modifiable) grâce à sa structure. (p.13)
+- Un professionnel progresse lui-même : ce n'est pas à l'entreprise de garantir la mise à jour de ses compétences ni son attractivité sur le marché du travail. (p.15)
+- Un professionnel connait ses classiques et sort de sa zone de confort dans l'apprentissage continu. (p.17)
+- Un professionnel connait le domaine de l'entreprise pour laquelle il travaille : comptabilité, voyage, etc. (p.19)
+- Un professionnel est humble : il a confiance en ses compétences, est fier de son travail, mais il sait aussi qu'il ferra des erreurs et calcule les risques. Il rit de ses erreurs et ne se moque pas de celles autres. (p.20)
+
+## Chapitre 2 : savoir dire non
+
+- Les dirigeants demanderont parfois l'impossible (notamment au niveau des délais), puisqu'ils sont loin du développement. En tant que professionnel, il est de votre **devoir** de leur dire que c'est impossible, et surtout de ne pas céder par un "nous allons essayer" qui est voué à l'échec. (p.23 à 26)
+- "Nous allons essayer" signifie que vous allez redoubler d'efforts pour atteindre l'objectif. Cela laisse entendre que vous disposez d'une marge de manœuvre, que vous ne travaillez pas à votre maximum sur ce projet, et que l'objectif devient réalisable avec ces efforts supplémentaires. **Si ce n'est pas le cas, c'est un mensonge**. En promettant d'essayer, vous êtes tenus de réussir : en cas d'échec, vous êtes la cause de l'échec. (p.29 à 30)
+- Parmi les caractéristiques principales d'un code propre, on trouve : qu'il soit extensible, maintenable, facilement modifiable, agréable à lire. (par John Blanco sur son blog https://raptureinvenice.com/is-good-code-impossible/)
+- Les professionnels sont souvent des héros, mais certainement pas parce qu'ils tendent à le devenir. Ils le sont lorsqu'ils font correctement leur travail dans les temps et dans le respect du budget imparti. En essayant de devenir le héros d'un projet, vous ne vous conduisez pas en professionnel. (p.39)
+- Se comporter de manière non professionnelle en espérant réussir ne peut conduire qu'à un échec. (p.39)
+
+## Chapitre 3 : savoir dire oui
+
+### Le langage de l'engagement, par Roy Osherove
+
+- Le langage de l'engagement comporte 3 étapes successives : dire, vouloir et faire. La plupart du temps, les gens ne se sentent pas tenus de réaliser ce qu'ils décident de faire, encore moins ce qu'ils ont simplement dit. Lorsque quelqu'un vous dit qu'il va réaliser une tâche pour vous, vous désirez le croire, alors que c'est rarement vrai. Vous ne devriez pas. (p.43).
+- Les termes et tournures qui placent l'interlocuteur en victime sont de clairs indicateurs d'un manque d'engagement : "J'espère" et "J'aimerais bien", ainsi que "On devrait" et "Il faudrait". Au contraire, celles qui commencent par "Je vais" indiquent un engagement fort (surtout combinées à une échéance). (p.44)
+- Si la faisabilité d'une tâche n'est pas certaines, il faut la reformuler avant de s'engager : ainsi "Je vais corriger les 25 bugs dans la semaine" devient "Je vais passer les 25 bugs en revue, essayer de les reproduire, et consacrer tout le temps qu'il me reste à en corriger la plus grande partie possible". (p.45 à 46)
+- Si un imprévu arrive et qu'il met en péril un engagement, il faut revoir ces engagements le plus tôt possible et d'alerter ceux qui en dépendent. (p.46)
+- Nous avons les années d'expérience qui prouvent que relâcher la discipline est sanctionné par un ralentissement. (p.48)
+- Les professionnels connaissent leurs limites et le nombre d'heures supplémentaires qu'ils peuvent effectuer efficacement, et à quel prix. (p.49)
+- Un professionnel n'accepte pas systématiquement tout ce qu'on lui demande. (p.50)
+
+## Chapitre 4 : coder
+
+- Dès que vous ne parvenez plus à vous concentrer suffisamment, le code que vous allez écrire sera défectueux. Sa structure sera incorrecte, il sera difficile à relire et à maintenir. Il ne va pas correctement résoudre le vrai problème du client. Autrement dit, il faudra y revenir et le reformuler. Travailler en étant distrait produit du déchet. Dès que vous sentez que vous êtes fatigué ou distrait, *n'écrivez plus de code*. Cherchez d'abord comment supprimer ce qui vous distrait et comment rétablir l'état d'esprit approprié. (p.53)
+- Le code en binôme permet souvent de dissiper une fatigue passagère. (p.58)
+- Vous ne devez accepter de faire des heures supplémentaires que si trois conditions sont réunies : (1) vous pouvez personnellement l'accepter ; (2) c'est pour une durée limitée d'environ deux semaines ; (3) votre chef a prévu un plan de secours au cas où ce travail supplémentaire ne donnerait pas les résultats espérés. (p.65)
+- Pour interdire les tentatives de livraison frauduleuse, il faut disposer d'une définition indépendante de l'état d'achèvement (Definition of Done). (p.65)
+- En proposant de l'aide à un collègue, il ne s'agit pas de laisser croire que vous êtes plus intelligent que lui, mais plutôt que votre point de vue différent peut vraiment l'aider à trouver la solution à son problème. (p.66)
+
+## Chapitre 5 : développement dirigé par les tests (TDD)
+
+- Les trois lois de TDD : vous ne vous autorisez pas à (1) écrire du code de production tant que vous n'avez pas écrit d'abord un test unitaire qui doit évidement échouer ; (2) écrire plus de code de test unitaire que nécessaire pour provoquer l'échec de la compilation ; (3) écrire plus de code de production que celui qui permet au final de faire réussir le test unitaire qui échouait. (p.71-72)
+- Le TDD permet d'améliorer la conception et de réduire le couplage. (p.75)
