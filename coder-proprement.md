@@ -18,6 +18,7 @@ Ensemble des enseignements que j'ai tirés du livre *Coder Proprement* par **Rob
 
 - Le temps où les directeurs de projet génèreront du code à partir des spécifications n'arrivera pas. Il y aura toujours du code, car il représente les détails des exigences. Pour se passer de code, il faudrait que les exigences soient parfaites. Or une exigence parfaitement explicitée est un code avec un haut niveau d'abstraction : elle est rigoureuse, précise, et tellement formelle et détaillée qu'une machine pourra la comprendre et l'exécuter. (p.2)
 - Vous ne respectez pas les échéances en travaillant mal. La seule manière de respecter le planning, ou d'aller vite, est de garder en permanence le code aussi propre que possible. (p.7)
+- Il est extrêmement complexe, voir impossible, d'écrire un code qui dès son premier jet appliquera tous les principes. C'est tout à fait normal : il faut d'abord écrire quelque chose de fonctionnel, puis l'améliorer. (p.55)
 
 ### Qu'est-ce qu'un code propre ?
 
@@ -102,3 +103,92 @@ Ensemble des enseignements que j'ai tirés du livre *Coder Proprement* par **Rob
 ### Choisir un mot par concept
 
 - Choisissez un mot par concept et restez-y fidèle : ne pas avoir `controller`, `manager` et `driver`. (p.30)
+
+## Chapitre 3 : Fonctions
+
+### Faire court
+
+- Plus une fonction est courte, plus elle est compréhensible et maintenable. Les fonctions doivent faire de préférence entre 5 et 10 lignes, et rarement dépasser 20 lignes. (p.38)
+- Le contenu des instructions bloc (`if`, `while`, `for`, etc.) ne doivent occuper qu'une ligne, qui sera probablement un appel de fonction. Cela permet de garder la fonction englobante courte, mais également d'ajouter une valeur documentaire, car la fonction appelée aura un nom parfaitement descriptif. (p.39)
+- Pas de structures imbriquées : le niveau d'indentation doit être inférieur ou égal à 2. (p.39)
+
+### Faire une seule chose
+
+- Une fonction ne doit faire qu'une seule chose. Elle doit la faire bien et ne faire qu'elle. (p.40)
+- Si d'une fonction, on ne peut extraire que des fonctions dont le nom est une reformulation de son implémentation (e.g. transformer `if cond then func_a(param)` en `func_a_if_cond(param, cond)`), elle ne fait qu'une chose. (p.40)
+- Une fonction qui ne fait qu'une seule chose ne peut pas être décomposée en sections. (p.41)
+- Si faire deux choses est déjà problématique, faire deux choses en annonçant n'en faire qu'une est grave. Les effets secondaires sont à proscrire absolument, e.g. 
+  ```python
+  def can_vote(user: User) -> bool:
+      user.address = "Canada"  # NON, on ne s'attend pas à ce que can_vote modifie l'adresse !
+      return user.age > 18
+  ```
+  (p.49-50)
+
+### Un niveau d'abstraction par fonction
+
+- Une fonction qui ne fait qu'une seule chose ne contient que des instructions au même niveau d'abstraction. (p.41)
+- Règle de la décroissance (*Stepdown Rule*) : un code se lit de haut en bas, chaque fonction est suivie d'une de niveau d'abstraction égal ou inférieur. Nous voulons que le code puisse se lire comme un ensemble de paragraphes `POUR`, chacun décrivant le niveau d'abstraction actuel et faisant référence à des `POUR` plus bas. E.g. : 
+  - POUR cuisiner des pâtes, préparer la casserole, faire cuire les pâtes dans la casserole, égoutter les pâtes.
+  - POUR préparer la casserole, remplir la casserole d'eau, ajouter du sel, mettre la casserole sur la plaque, allumer la plaque et attendre jusqu'à ce que l'eau bouille.
+  - POUR remplir la casserole d'eau, mettre la casserole dans l'évier, ouvrir le robinet, laisser l'eau couler jusqu'à ce que la casserole soit remplie, fermer le robinet.
+  - POUR mettre la casserole dans l'évier, [...]
+  - [...]
+  - POUR faire cuire les pâtes dans la casserole, ajouter les pâtes dans la casserole, régler la puissance de la plaque à 3/4 de sa puissance et attendre 7 minutes.
+  - [...]
+  - POUR égoutter les pâtes, mettre l'égouttoir dans l'évier et verser les pâtes dedans.
+  - [...]
+(p.41)
+
+### Conditions sur les types
+
+- Une condition sur un type brise de nombreuses règles (par exemple *Single Responsibility Principe*, *Open Closed Principle*). Le polymorphisme est toujours préféré : les conditions sur des types ne doivent être présentes que dans les classes de bas niveau, pour mettre en place le polymorphisme (par exemple dans le cas d'une Factory). (p.42 à 44)
+
+### Choisir des noms descriptifs
+
+- Une courte fonction qui ne fait qu'une chose est bien plus simple à nommer. (p.44)
+- N'ayez pas peur de créer un long nom. Un long nom descriptif vaut mieux qu'un nom court énigmatique. (p.44)
+
+### Arguments d'une fonction
+
+- Idéalement, une fonction est *nilandique* (aucun argument). Les fonctions *monadiques/unaires* (un argument) ou *diadiques* (deux arguments) sont acceptables. Les fonctions *triadiques* (trois arguments) doivent être évitées autant que possible. Celles *polyadiques* (plus de trois arguments) ne doivent jamais être employées sans une excellente raison. À noter qu'un nombre variable d'arguments (`*args`) est équivalent à une liste s'ils sont traités de manière identique, et compte de ce fait comme un seul argument. (p.45)
+- Avoir un nombre d'arguments très restreint permet de grandement simplifier les tests : moins d'arguments, c'est moins de combinaisons à tester. (p.45)
+- Les arguments indicateurs sont une mauvaise pratique : cela complique la signature et annonce que la fonction fait plusieurs choses. E.g. `italic` dans `print(message: str, italic: bool)` est un argument indicateur et il convient de décomposer en deux fonctions : `print(str)` et `print_italic(str)`. (p.46)
+- Il existe 3 types de fonctions, et une fonction ne peut être que d'un type : 
+  - Une *demande* questionne sans rien changer et retourne une information. E.g. `file_exists(str) -> bool`.
+  - Une *commande* manipule un élément pour retourner un élément. L'élément retourné est un nouvel élément, e.g. `open(str) -> InputStream`. En orienté objet, une commande peut s'appliquer sur un objet et n'aura pas besoin de retourner un élément, e.g. `user.add_one_year()`.
+  - Un *évènement* modifie l'état du système. E.g. `print(str) -> None`.
+(p.46)
+- Les fonctions diadiques sont parfaites si les arguments sont des éléments ordonnés d'un même type, e.g. `point = Point(12, 3)`. Si ce n'est pas le cas, elles ne sont pas diaboliques, mais complexifient le code : e.g.   `write(a, b)` est moins clair que `a.write(b)` car l'ordre n'est pas naturel. (p.47)
+- Si vous rencontrez des fonctions qui semblent avoir besoin de plus de deux arguments, essayez de les regrouper en une classe. En effet, cet ensemble d'argument est sans doute un concept qui mérite son propre nom. E.g. `make_circle(x, y, radius)` devient `make_circle(point, radius)` (p.48)
+
+### Exceptions
+
+- Il n'y a pas de raison d'utiliser des codes d'erreur dans les langages permettant les exceptions. (p.51)
+- Si une fonction peut lever des exceptions, écrire les `try/except` dans une autre fonction qui appellera ladite fonction : en effet, une fonction ne fait qu'une seule chose. (p.52)
+
+### Ne vous répétez pas
+
+- Le code doit suivre le principe DRY (*Don't Reapeat Yourself*). Cela permet de garder le code compact et de pouvoir effectuer les modifications à un seul endroit. (p.54)
+
+### Programmation structurée
+
+- La programmation structurée n'est utile qu'avec des longues fonctions. En gardant les fonctions courtes, appliquer ce principe apportera plus de contraintes et de problèmes que d'avantages. (p.54 à 55)
+
+## Chapitre 4 : Commentaires
+> Ne commentez pas le mauvais code, récrivez-le.  
+-- The Elements of Programming Style seconde édition, p.144, par Keprnighan et Plaugher, McGraw-Hill, 1978
+
+- Rien n'est plus utile qu'un commentaire bien placé. (p.59)
+- Rien ne peut encombrer un module autant que des commentaires dogmatiques sans importance. Ne jamais commenter des évidences. (p.59)
+- Rien ne peut être plus préjudiciable qu'un ancien commentaire obsolète qui propage mensonges et désinformation. (p.59)
+- Les commentaires sont, au mieux, un mal nécessaire. Ils pallient notre incapacité à exprimer nos intentions par le code. Lorsque vous exprimez le besoin d'écrire un commentaire, tentez d'abord d'améliorer votre code. En général, remplacer une opération complexe par un appel de fonction bien nommée ou une justification par une variable bien nommée dissipera le besoin de commenter. (p.60 à 61)
+- Le code demeure la seule source d'informations absolument justes, les développeurs pouvant oublier de mettre à jour les commentaires. (p.61) 
+- Les commentaires sont cependant utiles dans les cas suivants :
+  - Expliquer les raisons un choix technique, e.g. "J'utilise un buble-sort plutôt qu'un fast-sort puisque [...]".
+  - Clarifier des appels vers des fonctions peu claires que l'on ne peut pas modifier.
+  - Avertir des conséquences possibles, e.g. "Attention, cette fonction est très lente, si vous acceptez une marge d'erreur de x% préférer la fonction func2".
+  - Amplifier l'importance d'un point.
+  - TODOs.
+  - Commentaires légaux, e.g. copyright.
+(p.62 à 66)
